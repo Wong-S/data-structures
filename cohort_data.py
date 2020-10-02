@@ -18,11 +18,16 @@ def all_houses(filename):
     houses = set()
 
     # TODO: replace this with your code
+    data_file = open(filename)
+    for line in data_file:
+        words = line.split("|")
+        houses.add(words[2])
+    houses.remove("")
 
     return houses
 
 
-def students_by_cohort(filename, cohort='All'):
+def students_by_cohort(filename, cohort="All"):
     """Return a list of students' full names by cohort.
 
     Names are sorted in alphabetical order. If a cohort isn't
@@ -187,14 +192,13 @@ def get_housemates_for(filename, name):
 # END OF MAIN EXERCISE.  Yay!  You did it! You Rock!
 #
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import doctest
 
-    result = doctest.testfile('doctests.py',
-                              report=False,
-                              optionflags=(
-                                  doctest.REPORT_ONLY_FIRST_FAILURE
-                              ))
+    result = doctest.testfile(
+        "doctests.py", report=False, optionflags=(doctest.REPORT_ONLY_FIRST_FAILURE)
+    )
     doctest.master.summarize(1)
     if result.failed == 0:
-        print('ALL TESTS PASSED')
+        print("ALL TESTS PASSED")
+
