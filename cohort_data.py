@@ -58,6 +58,24 @@ def students_by_cohort(filename, cohort="All"):
     students = []
 
     # TODO: replace this with your code
+    # Conditional statement
+    data_file = open(filename)
+    for line in data_file:
+        words = line.rstrip().split("|")
+        # if cohort = all and != I or G, then append fullname of student into empty list
+        if cohort == "All":
+            if words[4] != "I" and words[4] != "G":
+                fullname = f"{words[0]} {words[1]}"
+                # print(fullnacme)  # Check
+                students.append(fullname)
+                # print(students)
+
+        else:
+            if words[4] == cohort:
+                fullname = f"{words[0]} {words[1]}"
+                # print(fullname)  # Check
+                students.append(fullname)
+                # print(students)
 
     return sorted(students)
 
@@ -102,8 +120,37 @@ def all_names_by_house(filename):
     instructors = []
 
     # TODO: replace this with your code
+    data_file = open(filename)
+    for line in data_file:
+        words = line.rstrip().split("|")
+        house = words[2]
+        # print(house)
 
-    return []
+        if house == "Dumbledore's Army":
+            # print("dumble")
+            dumbledores_army.append(f"{words[0]} {words[1]}")
+        if house == "Gryffindor":
+            gryffindor.append(f"{words[0]} {words[1]}")
+        if house == "Hufflepuff":
+            hufflepuff.append(f"{words[0]} {words[1]}")
+        if house == "Ravenclaw":
+            ravenclaw.append(f"{words[0]} {words[1]}")
+        if house == "Slytherin":
+            slytherin.append(f"{words[0]} {words[1]}")
+        if words[4] == "G":
+            ghosts.append(f"{words[0]} {words[1]}")
+        if words[4] == "I":
+            instructors.append(f"{words[0]} {words[1]}")
+
+    return [
+        sorted(dumbledores_army),
+        sorted(gryffindor),
+        sorted(hufflepuff),
+        sorted(ravenclaw),
+        sorted(slytherin),
+        sorted(ghosts),
+        sorted(instructors),
+    ]
 
 
 def all_data(filename):
@@ -128,6 +175,10 @@ def all_data(filename):
     all_data = []
 
     # TODO: replace this with your code
+    data_file = open(filename)
+    for line in data_file:
+        words = line.rstrip().split("|")
+        all_data.append((f"{words[0]} {words[1]}", words[2], words[3], words[4]))
 
     return all_data
 
@@ -154,6 +205,13 @@ def get_cohort_for(filename, name):
     """
 
     # TODO: replace this with your code
+    data_file = open(filename)
+    for line in data_file:
+        words = line.rstrip().split("|")
+        # if name == fulllname, return words[4] or none
+        if name == f"{words[0]} {words[1]}":
+            return words[4]
+    return None
 
 
 def find_duped_last_names(filename):
@@ -171,6 +229,23 @@ def find_duped_last_names(filename):
     """
 
     # TODO: replace this with your code
+    # Save a list of names, as we cycle through list, if not in list, then add.
+    # Check if alreday in names.
+    # First list = [] --> keep track of list we have
+    # Second list = [] --> as we iterate through, check to see if it's in first list, if it is, then add to second list
+    all_last_names = []
+    duplicate_names = []
+
+    data_file = open(filename)
+    for line in data_file:
+        words = line.rstrip().split("|")
+        if words[1] in all_last_names:
+            duplicate_names.append(words[1])
+
+        else:
+            all_last_names.append(words[1])
+
+    return set(duplicate_names)
 
 
 def get_housemates_for(filename, name):
@@ -186,6 +261,29 @@ def get_housemates_for(filename, name):
     """
 
     # TODO: replace this with your code
+    data_file = open(filename)
+    for line in data_file:
+        words = line.rstrip().split("|")
+        if name == f"{words[0]} {words[1]}":
+            house = words[2]
+            cohort = words[4]
+    # print(house)
+    # print(cohort)
+    housemates = []
+    data_file = open(filename)
+    for line in data_file:
+        words = line.rstrip().split("|")
+        # print("second for")
+        if words[2] == house and words[4] == cohort:
+            # print("found housemate")
+            if f"{words[0]} {words[1]}" != name:
+                # print("Not the name")
+                housemates.append(f"{words[0]} {words[1]}")
+    # print(housemates)
+
+    return set(housemates)
+    # check if words[2] == student's house, words[4] == student's cohort
+    # return set of housemates' names
 
 
 ##############################################################################
